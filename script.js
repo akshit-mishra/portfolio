@@ -22,14 +22,3 @@ let letter = "";
         setTimeout(type, 100); // Typing speed
     }
 })();
-
-// OPTIONAL: Simple Mobile Menu Toggle
-// If you want the menu to work on phone, un-comment this code:
-/*
-const burger = document.querySelector('.burger');
-const nav = document.querySelector('.nav-links');
-
-burger.addEventListener('click', () => {
-    nav.classList.toggle('nav-active');
-});
-*/
