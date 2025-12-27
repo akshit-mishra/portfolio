@@ -319,7 +319,7 @@ footer {
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .navbar { padding: 1.5rem 5%; }
-    .nav-links { display: none; } /* Add JS toggle for real menu */
+    .nav-links { display: none; } /* Simplified */
     
     .hero {
         flex-direction: column;
