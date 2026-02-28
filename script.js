@@ -6,6 +6,8 @@ let isDeleting = false;
 const typewriterElement = document.querySelector('.typewriter');
 
 function type() {
+    if (!typewriterElement) return;
+    
     const currentWord = words[wordIndex];
     
     if (isDeleting) {
@@ -19,46 +21,60 @@ function type() {
     let typeSpeed = isDeleting ? 50 : 100;
 
     if (!isDeleting && charIndex === currentWord.length) {
-        typeSpeed = 1500; // Pause at end of word
+        typeSpeed = 2000; // Pause longer when word is fully typed
         isDeleting = true;
     } else if (isDeleting && charIndex === 0) {
         isDeleting = false;
         wordIndex = (wordIndex + 1) % words.length;
-        typeSpeed = 500; // Pause before typing new word
+        typeSpeed = 500; 
     }
 
     setTimeout(type, typeSpeed);
 }
 
-// Start typewriter when page loads
+// 2. Scroll Reveal Animations & Navbar Glass Effect
 document.addEventListener('DOMContentLoaded', () => {
-    if(typewriterElement) type();
-});
+    // Start Typewriter
+    type();
 
-// 2. Scroll Reveal Animations (Intersection Observer)
-const observerOptions = {
-    threshold: 0.1, // Trigger when 10% of element is visible
-    rootMargin: "0px 0px -50px 0px"
-};
+    // Setup elements for scroll animation
+    const cardsAndImages = document.querySelectorAll('.achievement-card, .gallery-item, .about-text');
+    cardsAndImages.forEach(el => el.classList.add('fade-up'));
 
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('show');
-            observer.unobserve(entry.target); // Stop observing once revealed
+    const observerOptions = {
+        threshold: 0.1, 
+        rootMargin: "0px 0px -50px 0px"
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+                observer.unobserve(entry.target); 
+            }
+        });
+    }, observerOptions);
+
+    cardsAndImages.forEach(el => observer.observe(el));
+
+    // Navbar scroll effect
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
         }
     });
-}, observerOptions);
 
-// Select all cards and gallery items to animate
-const animatedElements = document.querySelectorAll('.achievement-card, .gallery-item');
-animatedElements.forEach(el => observer.observe(el));
+    // Mobile Navigation Burger Menu (Basic Toggle)
+    const burger = document.querySelector('.burger');
+    const navLinks = document.querySelector('.nav-links');
 
-// 3. Mobile Navigation Burger Menu
-const burger = document.querySelector('.burger');
-const navLinks = document.querySelector('.nav-links');
-
-burger.addEventListener('click', () => {
-    navLinks.classList.toggle('nav-active');
-    // Optional: Add a simple CSS class to style the mobile menu pop-out
+    if(burger) {
+        burger.addEventListener('click', () => {
+            navLinks.classList.toggle('nav-active');
+            // Optional: style .nav-active in CSS to show mobile menu
+        });
+    }
 });
