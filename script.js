@@ -37,9 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start Typewriter
     type();
 
-    // Setup elements for scroll animation
-    const cardsAndImages = document.querySelectorAll('.achievement-card, .gallery-item, .about-text');
-    cardsAndImages.forEach(el => el.classList.add('fade-up'));
+    // FIXED: Grab EVERY element that has the 'fade-up' class in HTML
+    const fadeUpElements = document.querySelectorAll('.fade-up');
 
     const observerOptions = {
         threshold: 0.1, 
@@ -49,13 +48,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('show');
+                entry.target.classList.add('show'); // This makes it visible!
                 observer.unobserve(entry.target); 
             }
         });
     }, observerOptions);
 
-    cardsAndImages.forEach(el => observer.observe(el));
+    // Tell the observer to watch all the hidden elements
+    fadeUpElements.forEach(el => observer.observe(el));
 
     // Navbar scroll effect
     const navbar = document.querySelector('.navbar');
@@ -67,14 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Mobile Navigation Burger Menu (Basic Toggle)
+    // Mobile Navigation Burger Menu
     const burger = document.querySelector('.burger');
     const navLinks = document.querySelector('.nav-links');
 
     if(burger) {
         burger.addEventListener('click', () => {
             navLinks.classList.toggle('nav-active');
-            // Optional: style .nav-active in CSS to show mobile menu
         });
     }
 });
